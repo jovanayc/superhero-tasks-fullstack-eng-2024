@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Welcome Back, Spiderman</title>
+</head>
+<body>
+    <div class="container">
+        <h1 id="greeting-message"></h1>
+        <h2 id="task-message"></h2>
+        <div id="firework-container"></div>
+    </div>
+
+    <!-- Include the task management script -->
+    <script src="tasks.js"></script>
+
+    <script>
+        const userName = "Spiderman"; // Spiderman's name
+        const greetingMessage = `Welcome back, ${userName}!`;
+
+        // Text animation for "Welcome back, Spiderman!" one letter at a time
+        const displayGreeting = () => {
+            let i = 0;
+            const greetingElement = document.getElementById('greeting-message');
+            const typeWriterEffect = setInterval(() => {
+                greetingElement.textContent += greetingMessage[i];
+                i++;
+                if (i === greetingMessage.length) {
+                    clearInterval(typeWriterEffect);
+                }
+            }, 100); // Adjust this value for speed (100ms delay per letter)
+        };
+
+        // Display the random task after greeting
+        const displayTask = () => {
+            const randomTask = getRandomTask(); // Get task from tasks.js
+            document.getElementById('task-message').textContent = `Your next task: ${randomTask}`;
+        };
+
+        // Start the typewriter effect
+        displayGreeting();
+
+        // Show the task after the greeting is fully displayed
+        setTimeout(displayTask, greetingMessage.length * 100); // Timing matches the typewriter speed
+
+        // Firework effect (from the original)
+        const fireworkContainer = document.getElementById('firework-container');
+        const createFirework = () => {
+            const firework = document.createElement('div');
+            firework.classList.add('firework');
+            firework.style.position = 'absolute';
+            firework.style.left = Math.random() * 100 + 'vw';
+            firework.style.animationDuration = Math.random() * 2 + 1 + 's';
+            fireworkContainer.appendChild(firework);
+            setTimeout(() => firework.remove(), 1000); // Remove firework after animation
+        };
+
+        for (let i = 0; i < 10; i++) {
+            setTimeout(createFirework, i * 500); // Create a firework every 500ms
+        }
+    </script>
+
+    <style>
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff0;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+            animation: explode 1s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(5);
+                opacity: 0;
+            }
+        }
+    </style>
+</body>
+</html>
